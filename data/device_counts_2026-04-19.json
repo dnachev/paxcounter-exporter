@@ -89,5 +89,12 @@
     "wifi": 27,
     "ble": 0,
     "samples": 5
+  },
+  {
+    "timestamp": "2026-04-19T08:06:34.040338",
+    "pax": 17,
+    "wifi": 17,
+    "ble": 0,
+    "samples": 5
   }
 ]
