@@ -108,12 +108,25 @@ function updateDashboard() {
         return minutes >= (7 * 60) && minutes <= (20 * 60);
     });
     
-    // Update Average (Only PAX for filtered data)
-    const totalPax = filteredData.reduce((acc, curr) => acc + (parseInt(curr.pax) || 0), 0);
-    const averagePax = filteredData.length > 0 ? Math.round(totalPax / filteredData.length) : 0;
+    // Update Stat Card (Average from past 15 min)
+    if (dailyData.length > 0) {
+        const latestEntry = dailyData[dailyData.length - 1];
+        const latestTime = DateTime.fromISO(latestEntry.timestamp);
+        const fifteenMinsAgo = latestTime.minus({ minutes: 15 });
+        
+        const last15MinData = dailyData.filter(entry => {
+            const entryTime = DateTime.fromISO(entry.timestamp);
+            return entryTime >= fifteenMinsAgo && entryTime <= latestTime;
+        });
 
-    console.log("Calculated average (07:00 - 20:00):", averagePax);
-    document.getElementById('stat-pax').textContent = averagePax;
+        const totalPax15 = last15MinData.reduce((acc, curr) => acc + (parseInt(curr.pax) || 0), 0);
+        const averagePax15 = last15MinData.length > 0 ? Math.round(totalPax15 / last15MinData.length) : 0;
+        
+        console.log("Calculated 15-min average:", averagePax15);
+        document.getElementById('stat-pax').textContent = averagePax15;
+    } else {
+        document.getElementById('stat-pax').textContent = 0;
+    }
 
     renderChart(filteredData);
 }
