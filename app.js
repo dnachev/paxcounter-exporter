@@ -1,5 +1,3 @@
-const { DateTime } = luxon;
-
 const state = {
     availableDays: [],
     currentDate: null,
@@ -8,9 +6,21 @@ const state = {
 };
 
 async function init() {
+    console.log("Initializing dashboard...");
+    
+    if (typeof luxon === 'undefined') {
+        console.error("Luxon library not loaded!");
+        return;
+    }
+    const { DateTime } = luxon;
+    
+    if (typeof frappe === 'undefined') {
+        console.error("Frappe Charts library not loaded!");
+    }
+    
     // Fetch available days
     try {
-        const res = await fetch('./data/days.json');
+        const res = await fetch(`./data/days.json?t=${Date.now()}`);
         if (res.ok) {
             state.availableDays = await res.json();
         } else {
@@ -56,12 +66,17 @@ async function init() {
 
 async function fetchData() {
     if (!state.currentDate) return;
+    const { DateTime } = luxon;
     
+    console.log(`Fetching data for ${state.currentDate}...`);
     try {
-        const response = await fetch(`./data/device_counts_${state.currentDate}.json`);
+        const url = `./data/device_counts_${state.currentDate}.json?t=${Date.now()}`;
+        const response = await fetch(url);
         if (response.ok) {
             state.data = await response.json();
+            console.log(`Successfully fetched ${state.data.length} records.`);
         } else {
+            console.error(`Failed to fetch: ${response.status} ${response.statusText}`);
             state.data = [];
         }
         updateDashboard();
@@ -75,18 +90,22 @@ async function fetchData() {
 
 function updateDashboard() {
     const dailyData = state.data;
+    const { DateTime } = luxon;
+    console.log("Updating dashboard with data:", dailyData);
     
     // Update Totals (Only PAX)
     const totals = dailyData.reduce((acc, curr) => ({
-        pax: acc.pax + (curr.pax || 0)
+        pax: acc.pax + (parseInt(curr.pax) || 0)
     }), { pax: 0 });
 
+    console.log("Calculated totals:", totals);
     document.getElementById('stat-pax').textContent = totals.pax;
 
     renderChart(dailyData);
 }
 
 function renderChart(data) {
+    const { DateTime } = luxon;
     // Aggregate into 15-minute buckets
     const buckets = {};
     
