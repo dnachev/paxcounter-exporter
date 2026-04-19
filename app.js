@@ -101,11 +101,11 @@ function updateDashboard() {
         document.getElementById('last-updated').textContent = `Няма данни за избрания ден`;
     }
     
-    // Filter data between 07:30 and 20:00
+    // Filter data between 07:00 and 20:00
     const filteredData = dailyData.filter(entry => {
         const dt = DateTime.fromISO(entry.timestamp);
         const minutes = dt.hour * 60 + dt.minute;
-        return minutes >= (7 * 60 + 30) && minutes <= (20 * 60);
+        return minutes >= (7 * 60) && minutes <= (20 * 60);
     });
     
     // Update Totals (Only PAX for filtered data)
@@ -113,7 +113,7 @@ function updateDashboard() {
         pax: acc.pax + (parseInt(curr.pax) || 0)
     }), { pax: 0 });
 
-    console.log("Calculated totals (07:30 - 20:00):", totals);
+    console.log("Calculated totals (07:00 - 20:00):", totals);
     document.getElementById('stat-pax').textContent = totals.pax;
 
     renderChart(filteredData);
@@ -121,9 +121,9 @@ function updateDashboard() {
 
 function renderChart(data) {
     const { DateTime } = luxon;
-    // Pre-fill 15-minute buckets from 07:30 to 20:00
+    // Pre-fill 15-minute buckets from 07:00 to 20:00
     const buckets = {};
-    for (let m = 7 * 60 + 30; m <= 20 * 60; m += 15) {
+    for (let m = 7 * 60; m <= 20 * 60; m += 15) {
         const hour = Math.floor(m / 60).toString().padStart(2, '0');
         const min = (m % 60).toString().padStart(2, '0');
         buckets[`${hour}:${min}`] = { paxValues: [] };
