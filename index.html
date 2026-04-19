@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Табло за мониторинг</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Frappe Charts -->
+    <script src="https://cdn.jsdelivr.net/npm/frappe-charts@1.6.2/dist/frappe-charts.min.iife.js"></script>
+    <!-- Luxon for date/time -->
+    <script src="https://cdn.jsdelivr.net/npm/luxon@3.4.4/build/global/luxon.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Табло за мониторинг</h1>
+            <div id="last-updated">Последно обновяване: --:--</div>
+        </header>
+
+        <section class="stats-grid">
+            <div class="stat-card">
+                <h3>Хора</h3>
+                <p id="stat-pax">0</p>
+            </div>
+        </section>
+
+        <section class="controls">
+            <label for="date-picker">Дата:</label>
+            <select id="date-picker"></select>
+            <button id="refresh-btn">Обнови данните</button>
+        </section>
+
+        <section class="chart-container">
+            <div id="chart"></div>
+        </section>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>
