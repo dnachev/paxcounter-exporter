@@ -80,7 +80,6 @@ async function fetchData() {
             state.data = [];
         }
         updateDashboard();
-        document.getElementById('last-updated').textContent = `Последно обновяване: ${DateTime.now().toFormat('HH:mm:ss')}`;
     } catch (err) {
         console.error('Error fetching data:', err);
         state.data = [];
@@ -92,6 +91,15 @@ function updateDashboard() {
     const { DateTime } = luxon;
     const dailyData = state.data;
     console.log("Updating dashboard with raw data:", dailyData);
+
+    // Update Last Updated from data
+    if (dailyData.length > 0) {
+        const lastEntry = dailyData[dailyData.length - 1];
+        const lastTs = DateTime.fromISO(lastEntry.timestamp).toFormat('HH:mm');
+        document.getElementById('last-updated').textContent = `Последно измерване: ${lastTs}`;
+    } else {
+        document.getElementById('last-updated').textContent = `Няма данни за избрания ден`;
+    }
     
     // Filter data between 07:30 and 20:00
     const filteredData = dailyData.filter(entry => {
