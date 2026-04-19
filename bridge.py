@@ -20,9 +20,8 @@ def get_git_push():
 
         subprocess.run(['git', 'add', 'data/'], check=True)
         subprocess.run(['git', 'commit', '-m', 'chore: update device data [skip ci]'], check=True)
-        # Note: In a real environment, you'd need credentials configured for 'git push'
-        # subprocess.run(['git', 'push', 'origin', 'main'], check=True)
-        print(f"[{datetime.now()}] Data committed (push skipped in sandbox).")
+        subprocess.run(['git', 'push', 'origin', 'main'], check=True)
+        print(f"[{datetime.now()}] Data committed and pushed to GitHub.")
     except subprocess.CalledProcessError as e:
         print(f"[{datetime.now()}] Git operation failed: {e}")
 
@@ -99,11 +98,16 @@ def main():
                         with open(data_file, 'w') as f:
                             json.dump([], f)
 
+                    # Calculate averages instead of sums
+                    avg_pax = round(current_counts['pax'] / current_counts['samples'])
+                    avg_wifi = round(current_counts['wifi'] / current_counts['samples'])
+                    avg_ble = round(current_counts['ble'] / current_counts['samples'])
+
                     entry = {
                         'timestamp': current_time.isoformat(),
-                        'pax': current_counts['pax'],
-                        'wifi': current_counts['wifi'],
-                        'ble': current_counts['ble'],
+                        'pax': avg_pax,
+                        'wifi': avg_wifi,
+                        'ble': avg_ble,
                         'samples': current_counts['samples']
                     }
                     

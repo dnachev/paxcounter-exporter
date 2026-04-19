@@ -89,39 +89,55 @@ async function fetchData() {
 }
 
 function updateDashboard() {
-    const dailyData = state.data;
     const { DateTime } = luxon;
-    console.log("Updating dashboard with data:", dailyData);
+    const dailyData = state.data;
+    console.log("Updating dashboard with raw data:", dailyData);
     
-    // Update Totals (Only PAX)
-    const totals = dailyData.reduce((acc, curr) => ({
+    // Filter data between 07:30 and 20:00
+    const filteredData = dailyData.filter(entry => {
+        const dt = DateTime.fromISO(entry.timestamp);
+        const minutes = dt.hour * 60 + dt.minute;
+        return minutes >= (7 * 60 + 30) && minutes <= (20 * 60);
+    });
+    
+    // Update Totals (Only PAX for filtered data)
+    const totals = filteredData.reduce((acc, curr) => ({
         pax: acc.pax + (parseInt(curr.pax) || 0)
     }), { pax: 0 });
 
-    console.log("Calculated totals:", totals);
+    console.log("Calculated totals (07:30 - 20:00):", totals);
     document.getElementById('stat-pax').textContent = totals.pax;
 
-    renderChart(dailyData);
+    renderChart(filteredData);
 }
 
 function renderChart(data) {
     const { DateTime } = luxon;
-    // Aggregate into 15-minute buckets
+    // Pre-fill 15-minute buckets from 07:30 to 20:00
     const buckets = {};
+    for (let m = 7 * 60 + 30; m <= 20 * 60; m += 15) {
+        const hour = Math.floor(m / 60).toString().padStart(2, '0');
+        const min = (m % 60).toString().padStart(2, '0');
+        buckets[`${hour}:${min}`] = { paxValues: [] };
+    }
     
     data.forEach(entry => {
         const dt = DateTime.fromISO(entry.timestamp);
         const minute = Math.floor(dt.minute / 15) * 15;
         const bucketKey = dt.set({ minute, second: 0, millisecond: 0 }).toFormat('HH:mm');
         
-        if (!buckets[bucketKey]) {
-            buckets[bucketKey] = { pax: 0 };
+        if (buckets.hasOwnProperty(bucketKey)) {
+            buckets[bucketKey].paxValues.push(entry.pax || 0);
         }
-        buckets[bucketKey].pax += entry.pax || 0;
     });
 
     const labels = Object.keys(buckets).sort();
-    const paxData = labels.map(l => buckets[l].pax);
+    const paxData = labels.map(l => {
+        const vals = buckets[l].paxValues;
+        if (vals.length === 0) return 0;
+        const sum = vals.reduce((a, b) => a + b, 0);
+        return Math.round(sum / vals.length);
+    });
 
     const chartData = {
         labels: labels,
