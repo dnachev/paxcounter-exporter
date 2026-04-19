@@ -108,13 +108,12 @@ function updateDashboard() {
         return minutes >= (7 * 60) && minutes <= (20 * 60);
     });
     
-    // Update Totals (Only PAX for filtered data)
-    const totals = filteredData.reduce((acc, curr) => ({
-        pax: acc.pax + (parseInt(curr.pax) || 0)
-    }), { pax: 0 });
+    // Update Average (Only PAX for filtered data)
+    const totalPax = filteredData.reduce((acc, curr) => acc + (parseInt(curr.pax) || 0), 0);
+    const averagePax = filteredData.length > 0 ? Math.round(totalPax / filteredData.length) : 0;
 
-    console.log("Calculated totals (07:00 - 20:00):", totals);
-    document.getElementById('stat-pax').textContent = totals.pax;
+    console.log("Calculated average (07:00 - 20:00):", averagePax);
+    document.getElementById('stat-pax').textContent = averagePax;
 
     renderChart(filteredData);
 }
