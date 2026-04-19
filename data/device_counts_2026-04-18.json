@@ -1,92 +1,92 @@
 [
   {
     "timestamp": "2026-04-18T19:58:36.685110",
-    "pax": 45,
-    "wifi": 45,
+    "pax": 9,
+    "wifi": 9,
     "ble": 0,
     "samples": 5
   },
   {
     "timestamp": "2026-04-18T20:03:36.685422",
-    "pax": 47,
-    "wifi": 47,
+    "pax": 9,
+    "wifi": 9,
     "ble": 0,
     "samples": 5
   },
   {
     "timestamp": "2026-04-18T20:08:36.691424",
-    "pax": 56,
-    "wifi": 56,
+    "pax": 11,
+    "wifi": 11,
     "ble": 0,
     "samples": 5
   },
   {
     "timestamp": "2026-04-18T20:13:37.789203",
-    "pax": 52,
-    "wifi": 52,
+    "pax": 10,
+    "wifi": 10,
     "ble": 0,
     "samples": 5
   },
   {
     "timestamp": "2026-04-18T20:18:38.883129",
-    "pax": 51,
-    "wifi": 51,
+    "pax": 10,
+    "wifi": 10,
     "ble": 0,
     "samples": 5
   },
   {
     "timestamp": "2026-04-18T20:23:38.886968",
-    "pax": 72,
-    "wifi": 72,
+    "pax": 14,
+    "wifi": 14,
     "ble": 0,
     "samples": 5
   },
   {
     "timestamp": "2026-04-18T20:28:39.985952",
-    "pax": 53,
-    "wifi": 53,
+    "pax": 11,
+    "wifi": 11,
     "ble": 0,
     "samples": 5
   },
   {
     "timestamp": "2026-04-18T20:33:41.081618",
-    "pax": 55,
-    "wifi": 55,
+    "pax": 11,
+    "wifi": 11,
     "ble": 0,
     "samples": 5
   },
   {
     "timestamp": "2026-04-18T20:38:41.088932",
-    "pax": 50,
-    "wifi": 50,
+    "pax": 10,
+    "wifi": 10,
     "ble": 0,
     "samples": 5
   },
   {
     "timestamp": "2026-04-18T20:43:42.184872",
-    "pax": 41,
-    "wifi": 41,
+    "pax": 8,
+    "wifi": 8,
     "ble": 0,
     "samples": 5
   },
   {
     "timestamp": "2026-04-18T20:48:42.195297",
-    "pax": 39,
-    "wifi": 39,
+    "pax": 8,
+    "wifi": 8,
     "ble": 0,
     "samples": 5
   },
   {
     "timestamp": "2026-04-18T20:54:22.349539",
-    "pax": 39,
-    "wifi": 39,
+    "pax": 8,
+    "wifi": 8,
     "ble": 0,
     "samples": 5
   },
   {
     "timestamp": "2026-04-18T21:00:57.618823",
-    "pax": 8,
-    "wifi": 8,
+    "pax": 2,
+    "wifi": 2,
     "ble": 0,
     "samples": 5
   }
